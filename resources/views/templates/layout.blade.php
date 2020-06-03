@@ -59,8 +59,9 @@
       @yield('content')
 
     </main><!-- /.container -->
-
-
+<div>
+    @yield('footerYeld')
+</div>
 @section('footer')
     <div>
     il footer parent del template

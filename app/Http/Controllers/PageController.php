@@ -22,6 +22,9 @@ class PageController extends Controller
             'lastname' => 'sazzo senior'
         ],
     ];
+    protected $myName = 'nicsaz';
+
+
     public function about()
     {
         return view('about');
@@ -37,6 +40,6 @@ class PageController extends Controller
     }
     public function staff()
     {
-        return view('staff_b', ['title' => 'Our staff', 'dataStaff' => $this->data]);
+        return view('staff_b', ['title' => 'Our staff', 'dataStaff' => $this->data, 'myName' => $this->myName]);
     }
 }
