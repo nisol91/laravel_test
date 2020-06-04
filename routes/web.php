@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Album;
+use App\Models\Photo;
+use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,3 +35,16 @@ Route::get('/nome/{name?}/{lastname?}/{age?}', function ($name = '', $lastname =
     'name' => '[a-zA-Z]+', 'lastname' => '[a-zA-Z]+', 'age' => '[0-9]{0,3}',
 ]);
 Route::get('/welcomeController', 'WelcomeController@welcome');
+
+
+Route::get('/albums', function () {
+    return Album::all();
+});
+
+Route::get('/users', function () {
+    return User::all();
+});
+
+Route::get('/photos', function () {
+    return Photo::all();
+});

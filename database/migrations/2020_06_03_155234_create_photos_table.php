@@ -14,11 +14,11 @@ class CreatePhotosTable extends Migration
     public function up()
     {
         Schema::create('photos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('name', 128);
             $table->text('description');
             $table->integer('album_id')->unsigned();
-            $table->foreign('album_id')->on('albums')->references('id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade')->onUpdate('cascade');
             $table->string('img_path', 128);
             $table->softDeletes();
             $table->timestamps();
