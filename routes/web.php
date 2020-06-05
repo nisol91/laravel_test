@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlbumsController;
 use App\Models\Album;
 use App\Models\Photo;
 use App\User;
@@ -37,9 +38,7 @@ Route::get('/nome/{name?}/{lastname?}/{age?}', function ($name = '', $lastname =
 Route::get('/welcomeController', 'WelcomeController@welcome');
 
 
-Route::get('/albums', function () {
-    return Album::all();
-});
+Route::get('/albums', 'AlbumsController@index');
 
 Route::get('/users', function () {
     return User::all();
