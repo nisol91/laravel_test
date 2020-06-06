@@ -61,8 +61,8 @@ class AlbumsController extends Controller
 
     public function delete($id)
     {
-        // $query = 'delete from albums WHERE id=:id';
-        // DB::delete($query, ['id' => $id]);
+        $query = 'delete from albums WHERE id=:id';
+        return DB::delete($query, ['id' => $id]);
         // return redirect()->back();
         // dd('eccolo-->' . $id);
     }

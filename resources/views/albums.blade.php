@@ -27,8 +27,25 @@
             $('a').click(function (e) {
                 e.preventDefault();
                 var urlAlbum = $(this).attr('href');
+                var li = $(this).offsetParent();
+                console.log(li);
                 console.log(urlAlbum);
+                $.ajax(
+                    urlAlbum,
+                    {
+                        complete: function (response) {
+                            console.log(response)
+                            if (response.responseText == 1) {
 
+                                $(li).remove();
+                            } else {
+                                console.log('error');
+
+                            }
+
+                        }
+                    }
+                );
             });
         });
     </script>
