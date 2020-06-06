@@ -39,6 +39,8 @@ Route::get('/welcomeController', 'WelcomeController@welcome');
 
 
 Route::get('/albums', 'AlbumsController@index');
+Route::get('/albums/{id}/delete', 'AlbumsController@delete');
+
 
 Route::get('/users', function () {
     return User::all();

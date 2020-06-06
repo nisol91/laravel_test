@@ -55,6 +55,15 @@ class AlbumsController extends Controller
         }
 
         // dd($query);
-        return DB::select($query, $params);
+        $albums = DB::select($query, $params);
+        return view('albums', ['albums' => $albums, 'title' => 'ALBUMS']);
+    }
+
+    public function delete($id)
+    {
+        // $query = 'delete from albums WHERE id=:id';
+        // DB::delete($query, ['id' => $id]);
+        // return redirect()->back();
+        // dd('eccolo-->' . $id);
     }
 }
