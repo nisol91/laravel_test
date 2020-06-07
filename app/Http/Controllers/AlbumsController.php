@@ -54,6 +54,8 @@ class AlbumsController extends Controller
             $query .= " AND album_name=:album_name";
         }
 
+        $query .= ' ORDER BY id desc';
+
         // dd($query);
         $albums = DB::select($query, $params);
         return view('albums.albums', ['albums' => $albums, 'title' => 'ALBUMS']);
@@ -94,6 +96,38 @@ class AlbumsController extends Controller
         $query = "UPDATE albums SET album_name=:name, description=:description";
         $query .= " WHERE id=:id";
         $result = DB::update($query, $data);
-        dd($query);
+        $message = $result ? 'ooottimo, album con id: ' . $id . ' aggiornato' : 'non aggiornato :(';
+        session()->flash('message', $message);
+        return redirect()->route('allAlbums');
+        // dd($query);
+    }
+
+    public function creation()
+    {
+        return view('albums.create', ['title' => 'create new album']);
+    }
+
+    public function saveNewAlbum()
+    {
+        // dd(request()->all());
+        $data = request()->only([
+            'name',
+            'description'
+        ]);
+        //per ora hardcodiamo l'userid
+        $id = 1;
+        $data['user_id'] = $id;
+        $query = "INSERT INTO albums (album_name, description, user_id)";
+        $query .= " VALUES(:name, :description, :user_id)";
+        $result = DB::insert($query, $data);
+
+
+        $message = $result ? 'ooottimo, album con id: ' . $id . ' e nome ' . $data['name'] . ' creato' : 'non aggiornato :(';
+
+        //salvo in sessione il messaggio
+        session()->flash('message', $message);
+
+        //redirect a tutti gli album
+        return redirect()->route('allAlbums');
     }
 }

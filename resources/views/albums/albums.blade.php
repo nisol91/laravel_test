@@ -9,6 +9,14 @@
 
 @section('content')
 <h1>{{$title}}</h1>
+@if (session()->has('message'))
+
+
+@component('components.allerta')
+    {{session()->get('message')}}
+@endcomponent
+
+@endif
 
 <form action="">
     <input type="hidden" value="{{ csrf_token() }}" id="_token" name="_token">
@@ -33,12 +41,39 @@
     <script type="text/javascript">
         jQuery(document).ready(function () {
 
+            $('.allerta').fadeOut(4000);
+
             $('.deleteAlbum').click(function (e) {
                 e.preventDefault();
                 var urlAlbum = $(this).attr('href');
                 var li = $(this).offsetParent();
                 console.log(li);
                 console.log(urlAlbum);
+
+
+
+                // per cancellare dinamicamente il dato, faccio una chiamata alla mia rotta,
+                // di fatto chiamo la mia api laravel
+                // alla rotta che corrisponde al metodo delete del controller
+                $.ajax({
+                    type: "DELETE",
+                    url: urlAlbum,
+                    data: {
+                            "_token": $('#_token').val()
+                        },
+                    success: function (response) {
+                        console.log(response)
+                            if (response == 1) {
+
+                                $(li).remove();
+                            } else {
+                                console.log('error');
+
+                            }
+                    }
+                });
+
+                //altro modo per fare la chiamata ajax
                 // $.ajax(
                 //     urlAlbum,
                 //     {
@@ -59,24 +94,6 @@
                 //         }
                 //     }
                 // );
-
-                $.ajax({
-                    type: "DELETE",
-                    url: urlAlbum,
-                    data: {
-                            "_token": $('#_token').val()
-                        },
-                    success: function (response) {
-                        console.log(response)
-                            if (response == 1) {
-
-                                $(li).remove();
-                            } else {
-                                console.log('error');
-
-                            }
-                    }
-                });
             });
         });
     </script>
