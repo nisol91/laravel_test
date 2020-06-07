@@ -56,7 +56,7 @@ class AlbumsController extends Controller
 
         // dd($query);
         $albums = DB::select($query, $params);
-        return view('albums', ['albums' => $albums, 'title' => 'ALBUMS']);
+        return view('albums.albums', ['albums' => $albums, 'title' => 'ALBUMS']);
     }
 
     public function delete($id)
@@ -65,5 +65,35 @@ class AlbumsController extends Controller
         return DB::delete($query, ['id' => $id]);
         // return redirect()->back();
         // dd('eccolo-->' . $id);
+    }
+
+    public function show($id)
+    {
+        $query = 'select * from albums WHERE id=:id';
+        return DB::select($query, ['id' => $id]);
+        // return redirect()->back();
+        // dd('eccolo-->' . $id);
+    }
+
+    public function edit($id)
+    {
+        $query = 'select album_name, description, id from albums WHERE id=:id';
+        $album = DB::select($query, ['id' => $id]);
+        return view('albums.edit', ['title' => 'edit', 'id' => $id, 'album' => $album[0]]);
+    }
+
+    public function store($id, Request $request)
+    {
+        // dd(request()->all());
+        $data = request()->only([
+            'name',
+            'description'
+        ]);
+        $data['id'] = $id;
+        // dd($data);
+        $query = "UPDATE albums SET album_name=:name, description=:description";
+        $query .= " WHERE id=:id";
+        $result = DB::update($query, $data);
+        dd($query);
     }
 }

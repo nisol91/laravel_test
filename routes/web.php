@@ -39,7 +39,15 @@ Route::get('/welcomeController', 'WelcomeController@welcome');
 
 
 Route::get('/albums', 'AlbumsController@index');
-Route::get('/albums/{id}/delete', 'AlbumsController@delete');
+// Route::get('/albums/{id}/delete', 'AlbumsController@delete');
+Route::get('/albums/{id}', 'AlbumsController@show');
+Route::get('/albums/{id}/edit', 'AlbumsController@edit');
+Route::delete('/albums/{id}', 'AlbumsController@delete');
+Route::patch('/albums/{id}', 'AlbumsController@store');
+
+
+
+
 
 
 Route::get('/users', function () {
