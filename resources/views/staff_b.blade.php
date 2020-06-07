@@ -27,7 +27,7 @@
 @endfor
 {{$myName}}
 
-{{-- nuova sintassi componente --}}
+{{-- nuova sintassi componente con classe Alert.php --}}
 <x-alert style="color:blue" :info="'info'" :message="'ooo'" :name="$myName"  />
 
 {{-- vecchia sintassi componente --}}

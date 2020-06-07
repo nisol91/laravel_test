@@ -48,6 +48,7 @@ Route::delete('/albums/{id}', 'AlbumsController@delete');
 Route::patch('/albums/{id}', 'AlbumsController@store');
 Route::post('/albums', 'AlbumsController@saveNewAlbum')->name('saveNewAlbum');
 Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
+Route::get('/users-with-no-album', 'AlbumsController@usersNoAlbum');
 
 
 
