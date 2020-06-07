@@ -69,7 +69,10 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
-        $queryBuilder = DB::table('albums')->orderBy('id', 'desc');
+        // $queryBuilder = Album::orderBy('id', 'desc'); -->> senza usare il Model di Eloquent
+        $queryBuilder = Album::orderBy('id', 'desc');
+        // NB il primo metodo che si chiama deve sempre essere STATICO (::)
+
 
         // ?id=12 (per avere filtri per id)
         if ($request->has('id')) {
@@ -95,7 +98,7 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
-        $queryBuilder = DB::table('albums')->where('id', '=', $id)->delete();
+        $queryBuilder = Album::where('id', '=', $id)->delete();
         return $queryBuilder;
     }
 
@@ -111,7 +114,7 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
-        $queryBuilder = DB::table('albums')->where('id', '=', $id)->get();
+        $queryBuilder = Album::where('id', '=', $id)->get();
         return $queryBuilder;
     }
 
@@ -125,7 +128,7 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
-        $queryBuilder = DB::table('albums')->where('id', '=', $id)->get();
+        $queryBuilder = Album::where('id', '=', $id)->get();
         $album = $queryBuilder;
         // dd($album);
         return view('albums.edit', ['title' => 'edit', 'id' => $id, 'album' => $album[0]]);
@@ -149,7 +152,7 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
-        $queryBuilder = DB::table('albums')->where('id', '=', $id)->update(
+        $queryBuilder = Album::where('id', '=', $id)->update(
             [
                 'album_name' => request()->input('name'),
                 'description' => request()->input('description'),
@@ -187,13 +190,38 @@ class AlbumsController extends Controller
         //****************
         // metodo con il query builder di laravel
         $id = 1;
-        $queryBuilder = DB::table('albums')->insert(
+
+
+        // $queryBuilder = Album::insert(
+        //     [
+        //         'album_name' => request()->input('name'),
+        //         'description' => request()->input('description'),
+        //         'user_id' => $id
+        //     ]
+        // );
+
+        /*
+        create è molto piu potente di insert, mi permette di decidere quali sono i campi
+        fillable, ovvero decidere quali sono quelli protetti e appunto fillabili, e quelli no (lo decido nel model)
+        */
+        $queryBuilder = Album::create(
             [
                 'album_name' => request()->input('name'),
                 'description' => request()->input('description'),
                 'user_id' => $id
             ]
         );
+
+        /*
+        //altro metodo alternativo : istanzio un nuovo oggetto Album
+        $album = new Album();
+        $album->album_name = request()->input('name');
+        $album->description = request()->input('description');
+        $album->user_id = 1;
+        $result = $album->save();
+        //dd($result);
+        */
+
         $result = $queryBuilder;
 
         $message = $result ? 'ooottimo, album con id: ' . $id . ' e nome ' . request()->input('name') . ' creato' : 'non aggiornato :(';

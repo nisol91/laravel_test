@@ -25,6 +25,11 @@
       <label for="">Description</label>
       <textarea name="description" id="" class="form-control" placeholder="desc" aria-describedby="helpId">{{$album->description}}</textarea>
     </div>
+    @if ($album->album_thumb)
+        <div>
+            <img src="{{$album->album_thumb}}" alt="">
+        </div>
+    @endif
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 

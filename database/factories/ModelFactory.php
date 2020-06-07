@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Album;
+use App\Models\Photo;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -18,10 +19,27 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(Album::class, function (Faker $faker) {
+$categories = [
+    'cats',
+    'nature',
+    'animals'
+];
+
+// use () serve per utilizzare globalmente una qualsiasi variabile
+$factory->define(Photo::class, function (Faker $faker) use ($categories) {
+    return [
+        'name' => $faker->name,
+        'description' => $faker->text(128),
+        'img_path' => $faker->imageUrl($width = 640, $height = 480, $faker->randomElement($categories)),
+        'album_id' => Album::inRandomOrder()->first()->id,
+    ];
+});
+
+$factory->define(Album::class, function (Faker $faker) use ($categories) {
     return [
         'album_name' => $faker->name,
         'description' => $faker->text(128),
         'user_id' => User::inRandomOrder()->first()->id,
+        'album_thumb' => $faker->imageUrl($width = 120, $height = 120, $faker->randomElement($categories))
     ];
 });

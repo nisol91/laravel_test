@@ -20,10 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 Route::get('/controller', 'HomeController@index');
-
 Route::get('/test', function () {
     return view('components/test');
 });
@@ -36,6 +33,9 @@ Route::get('/nome/{name?}/{lastname?}/{age?}', function ($name = '', $lastname =
     'name' => '[a-zA-Z]+', 'lastname' => '[a-zA-Z]+', 'age' => '[0-9]{0,3}',
 ]);
 Route::get('/welcomeController', 'WelcomeController@welcome');
+
+
+// *******
 
 
 Route::get('/albums', 'AlbumsController@index')->name('allAlbums');

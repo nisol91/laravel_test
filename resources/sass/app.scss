@@ -2,3 +2,9 @@
 body {
     padding: 150px;
 }
+
+.albumListElement {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

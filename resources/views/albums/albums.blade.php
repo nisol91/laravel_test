@@ -23,8 +23,13 @@
 </form>
 <ul class="list-group">
     @foreach ($albums as $album)
-    <li class="list-group-item">
+    <li class="list-group-item albumListElement">
         {{$album->album_name}} {{$album->id}}
+        @if ($album->album_thumb)
+        <div>
+            <img src="{{$album->album_thumb}}" alt="">
+        </div>
+    @endif
         <div>
 
             <a href="/albums/{{$album->id}}/edit" class="btn btn-primary">edit</a>
