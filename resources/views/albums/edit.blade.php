@@ -9,7 +9,7 @@
 
 <h1 >{{$title}} {{$id}}</h1>
 @section('content')
-<form action="/albums/{{$id}}" method="POST">
+<form action="/albums/{{$id}}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     {{-- equivale a --}}
     {{-- <input type="hidden" value="{{ csrf_token() }}" id="_token" name="_token"> --}}
@@ -24,8 +24,15 @@
     <input type="text" name="name" id="" class="form-control" placeholder="name" aria-describedby="helpId" value="{{$album->album_name}}">
       <label for="">Description</label>
       <textarea name="description" id="" class="form-control" placeholder="desc" aria-describedby="helpId">{{$album->description}}</textarea>
+
     </div>
     @if ($album->album_thumb)
+    <div class="form-group">
+
+      <label for="">Thumb</label>
+    <input type="file" name="album_thumb" id="" class="form-control" placeholder="album_thumb" aria-describedby="helpId" value="{{$album->album_thumb}}" >
+
+    </div>
         <div>
             <img src="{{$album->album_thumb}}" alt="">
         </div>

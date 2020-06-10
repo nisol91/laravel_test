@@ -152,10 +152,33 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
+
+        //per i files
+        $album_thumb = '';
+
+        if ($request->hasFile('album_thumb')) {
+            $file = request()->file('album_thumb');
+
+            if ($file->isValid()) {
+
+                //nome standard dato da laravel
+                // $fileName = $file->store(env('ALBUM_THUMBS_DIR'));
+
+                //nome custom
+                $string = $id . '.' . $file->extension();
+                $fileName = $file->storeAs(env('ALBUM_THUMBS_DIR'), $string);
+
+                // nb posso usare indifferentemente request() o la variabile iniettata che ho chiamato $request
+                $album_thumb = $fileName;
+            }
+        }
+
         $queryBuilder = Album::where('id', '=', $id)->update(
             [
                 'album_name' => request()->input('name'),
                 'description' => request()->input('description'),
+                'album_thumb' => $album_thumb,
+
             ]
         );
         $result = $queryBuilder;
