@@ -153,7 +153,9 @@ class AlbumsController extends Controller
         //****************
         // metodo con il query builder di laravel
 
-        //per i files
+
+
+        //per il caricamento di files
         $album_thumb = '';
 
         if ($request->hasFile('album_thumb')) {
