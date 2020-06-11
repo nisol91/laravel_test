@@ -157,6 +157,7 @@ class AlbumsController extends Controller
         $album_thumb = '';
 
         if ($request->hasFile('album_thumb')) {
+            // nb posso usare indifferentemente request() o la variabile iniettata che ho chiamato $request
             $file = request()->file('album_thumb');
 
             if ($file->isValid()) {
@@ -168,10 +169,12 @@ class AlbumsController extends Controller
                 $string = $id . '.' . $file->extension();
                 $fileName = $file->storeAs(env('ALBUM_THUMBS_DIR'), $string);
 
-                // nb posso usare indifferentemente request() o la variabile iniettata che ho chiamato $request
                 $album_thumb = $fileName;
+                // dd($album_thumb);
             }
         }
+
+
 
         $queryBuilder = Album::where('id', '=', $id)->update(
             [
@@ -181,6 +184,13 @@ class AlbumsController extends Controller
 
             ]
         );
+        /*
+        in alternativa trovo l'oggetto album e lo modifico cosi
+
+        $album = Album::find($id);
+        $album->album_name = ....
+        $album->description = ...
+        */
         $result = $queryBuilder;
         $message = $result ? 'ooottimo, album con id: ' . $id . ' aggiornato' : 'non aggiornato :(';
         session()->flash('message', $message);
