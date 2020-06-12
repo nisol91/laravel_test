@@ -134,6 +134,8 @@ class AlbumsController extends Controller
         return view('albums.edit', ['title' => 'edit', 'id' => $id, 'album' => $album[0]]);
     }
 
+
+    // salva i dati per EDIT
     public function store($id, Request $request)
     {
         /*
@@ -155,45 +157,31 @@ class AlbumsController extends Controller
 
 
 
-        //per il caricamento di files
-        $album_thumb = '';
-
-        if ($request->hasFile('album_thumb')) {
-            // nb posso usare indifferentemente request() o la variabile iniettata che ho chiamato $request
-            $file = request()->file('album_thumb');
-
-            if ($file->isValid()) {
-
-                //nome standard dato da laravel
-                // $fileName = $file->store(env('ALBUM_THUMBS_DIR'));
-
-                //nome custom
-                $string = $id . '.' . $file->extension();
-                $fileName = $file->storeAs(env('ALBUM_THUMBS_DIR'), $string);
-
-                $album_thumb = $fileName;
-                // dd($album_thumb);
-            }
-        }
 
 
 
-        $queryBuilder = Album::where('id', '=', $id)->update(
-            [
-                'album_name' => request()->input('name'),
-                'description' => request()->input('description'),
-                'album_thumb' => $album_thumb,
 
-            ]
-        );
-        /*
-        in alternativa trovo l'oggetto album e lo modifico cosi
+        // $queryBuilder = Album::where('id', '=', $id)->update(
+        //     [
+        //         'album_name' => request()->input('name'),
+        //         'description' => request()->input('description'),
+        //         'album_thumb' => $album_thumb,
+
+        //     ]
+        // );
+        // $result = $queryBuilder;
+
+
+        // in alternativa trovo l'oggetto album e lo modifico cosi
 
         $album = Album::find($id);
-        $album->album_name = ....
-        $album->description = ...
-        */
-        $result = $queryBuilder;
+        $album->album_name = request()->input('name');
+        $album->description = request()->input('description');
+        //per il caricamento di files
+        $album_thumb = $this->processFile($request, $id, $album);
+        $result = $album->save();
+
+
         $message = $result ? 'ooottimo, album con id: ' . $id . ' aggiornato' : 'non aggiornato :(';
         session()->flash('message', $message);
         return redirect()->route('allAlbums');
@@ -202,7 +190,10 @@ class AlbumsController extends Controller
 
     public function creation()
     {
-        return view('albums.create', ['title' => 'create new album']);
+        //per sicurezza istanzio un album vuoto all'inizio
+        // cosi se nel frontend ci sono variabili $album, posso
+        $album = new Album();
+        return view('albums.create', ['title' => 'create new album', 'album' => $album]);
     }
 
     public function saveNewAlbum()
@@ -235,29 +226,39 @@ class AlbumsController extends Controller
         //     ]
         // );
 
+
+
+
         /*
         create è molto piu potente di insert, mi permette di decidere quali sono i campi
         fillable, ovvero decidere quali sono quelli protetti e appunto fillabili, e quelli no (lo decido nel model)
         */
-        $queryBuilder = Album::create(
-            [
-                'album_name' => request()->input('name'),
-                'description' => request()->input('description'),
-                'user_id' => $id
-            ]
-        );
+        // $queryBuilder = Album::create(
+        //     [
+        //         'album_name' => request()->input('name'),
+        //         'description' => request()->input('description'),
+        //         'user_id' => $id
+        //     ]
+        // );
 
-        /*
+        // $result = $queryBuilder;
+
         //altro metodo alternativo : istanzio un nuovo oggetto Album
         $album = new Album();
         $album->album_name = request()->input('name');
         $album->description = request()->input('description');
-        $album->user_id = 1;
+        $album->user_id = $id;
+        $album->album_thumb = '';
         $result = $album->save();
         //dd($result);
-        */
+        //per il caricamento di files
+        if ($result) {
+            $fileProcessed = $this->processFile(request(), $album->id, $album);
+            if ($fileProcessed) {
+                $result = $album->save();
+            }
+        }
 
-        $result = $queryBuilder;
 
         $message = $result ? 'ooottimo, album con id: ' . $id . ' e nome ' . request()->input('name') . ' creato' : 'non aggiornato :(';
 
@@ -278,5 +279,30 @@ class AlbumsController extends Controller
             // ->whereRaw('album_name is null')
             ->get();
         return $usersNoAlbum;
+    }
+
+    /**
+     * this method processes files upload
+     */
+    public function processFile($request, $id, &$album): bool
+    {
+
+        $album_thumb = '';
+        // nb posso usare indifferentemente request() o la variabile iniettata che ho chiamato $request
+        $file = $request->file('album_thumb');
+
+        if (!$request->hasFile('album_thumb') || !$file->isValid()) {
+            return false;
+        }
+        //nome standard dato da laravel
+        // $fileName = $file->store(env('ALBUM_THUMBS_DIR'));
+
+        //nome custom
+        $string = $id . '.' . $file->extension();
+        $fileName = $file->storeAs(env('ALBUM_THUMBS_DIR'), $string);
+
+        $album_thumb = $fileName;
+        $album->album_thumb = $album_thumb;
+        return true;
     }
 }

@@ -26,17 +26,7 @@
       <textarea name="description" id="" class="form-control" placeholder="desc" aria-describedby="helpId">{{$album->description}}</textarea>
 
     </div>
-    @if ($album->album_thumb)
-    <div class="form-group">
-
-      <label for="">Thumb</label>
-    <input type="file" name="album_thumb" id="" class="form-control" placeholder="album_thumb" aria-describedby="helpId" value="{{$album->album_thumb}}" >
-
-    </div>
-        <div>
-            <img src="{{$album->album_thumb}}" alt="">
-        </div>
-    @endif
+    @include('albums.partials.fileupload')
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 

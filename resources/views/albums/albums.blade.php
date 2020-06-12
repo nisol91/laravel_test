@@ -27,7 +27,7 @@
         {{$album->album_name}} {{$album->id}}
         @if ($album->album_thumb)
         <div>
-            <img src="{{asset($album->path)}}" alt="">
+            <img src="{{asset($album->path)}}" alt="{{$album->album_name}}">
         </div>
     @endif
         <div>
