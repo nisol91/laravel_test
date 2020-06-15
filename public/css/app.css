@@ -8,3 +8,12 @@ body {
   justify-content: space-between;
 }
 
+.imgBox {
+  width: 100%;
+}
+
+.imgBox img {
+  max-width: 50%;
+  padding: 30px;
+}
+

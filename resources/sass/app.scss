@@ -8,3 +8,12 @@ body {
     flex-direction: row;
     justify-content: space-between;
 }
+
+.imgBox {
+    width: 100%;
+
+    img {
+        max-width: 50%;
+        padding: 30px;
+    }
+}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumsController extends Controller
 {
@@ -87,7 +88,7 @@ class AlbumsController extends Controller
         return view('albums.albums', ['albums' => $albums, 'title' => 'ALBUMS']);
     }
 
-    public function delete($id)
+    public function delete(Album $id)
     {
         /*
         $query = 'delete from albums WHERE id=:id';
@@ -98,8 +99,33 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
-        $queryBuilder = Album::where('id', '=', $id)->delete();
-        return $queryBuilder;
+        // $queryBuilder = Album::where('id', '=', $id)->delete();
+        // return $queryBuilder;
+
+
+        //****************
+        // in alternativa
+        // $album = Album::findOrFail($id);
+        // $res = $album->delete();
+
+
+        //****************
+        // in alternativa inietto l'album e lo cerco per primary key nella funzione
+        // esso deve coincidere col nome dato al parametro nella route web, in questo caso {id}
+        $album = $id;
+        $thumbnail = $album->album_thumb;
+        $disk = config('filesystems.default');
+
+        $res = $album->delete();
+        //elimino anche la thumbnail
+        if ($res) {
+            if ($thumbnail && Storage::disk($disk)->exists($thumbnail)) {
+                Storage::disk($disk)->delete($thumbnail);
+            }
+        }
+
+
+        return $res;
     }
 
     public function show($id)
