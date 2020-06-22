@@ -31,7 +31,9 @@ $factory->define(Photo::class, function (Faker $faker) use ($categories) {
         'name' => $faker->name,
         'description' => $faker->text(128),
         'img_path' => $faker->imageUrl($width = 640, $height = 480, $faker->randomElement($categories)),
-        'album_id' => Album::inRandomOrder()->first()->id,
+        // 'album_id' => Album::inRandomOrder()->first()->id,
+        'album_id' => 50,
+
     ];
 });
 

@@ -44,11 +44,16 @@ Route::get('/albums', 'AlbumsController@index')->name('allAlbums');
 // si confonda con albums/{id}
 Route::get('/albums/{id}', 'AlbumsController@show')->where('id', '[0-9]+');
 Route::get('/albums/{id}/edit', 'AlbumsController@edit');
+Route::get('/albums/{album}/images', 'AlbumsController@getImages')->name('albumImages')->where('id', '[0-9]+');
 Route::delete('/albums/{id}', 'AlbumsController@delete');
 Route::patch('/albums/{id}', 'AlbumsController@store');
 Route::post('/albums', 'AlbumsController@saveNewAlbum')->name('saveNewAlbum');
 Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
 Route::get('/users-with-no-album', 'AlbumsController@usersNoAlbum');
+
+
+//mi genera automaticamente tutte le rotte per Photos
+Route::resource('photos', 'PhotosController');
 
 
 

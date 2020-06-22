@@ -31,6 +31,10 @@
         </div>
     @endif
         <div>
+            @if ($album->photos_count)
+
+        <a href="/albums/{{$album->id}}/images" class="btn btn-primary">view images({{$album->photos_count}})</a>
+            @endif
 
             <a href="/albums/{{$album->id}}/edit" class="btn btn-primary">edit</a>
             <a href="/albums/{{$album->id}}" class="btn btn-danger deleteAlbum">delete</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -71,7 +72,7 @@ class AlbumsController extends Controller
         //****************
         // metodo con il query builder di laravel
         // $queryBuilder = Album::orderBy('id', 'desc'); -->> senza usare il Model di Eloquent
-        $queryBuilder = Album::orderBy('id', 'desc');
+        $queryBuilder = Album::orderBy('id', 'desc')->withCount('photos');
         // NB il primo metodo che si chiama deve sempre essere STATICO (::)
 
 
@@ -85,6 +86,7 @@ class AlbumsController extends Controller
         }
         // col get ritorno sempre la collection, e lo faccio dopo aver filtrato
         $albums = $queryBuilder->get();
+        // dd($albums);
         return view('albums.albums', ['albums' => $albums, 'title' => 'ALBUMS']);
     }
 
@@ -305,6 +307,26 @@ class AlbumsController extends Controller
             // ->whereRaw('album_name is null')
             ->get();
         return $usersNoAlbum;
+    }
+
+
+    // due alternative per prendere le immagini, o vado per id semplice, o inietto l'album
+    // se inietto l'album, nell'url in web routes deve esserci {album} e non {id}
+
+    /* public function getImages($id)
+    {
+
+        $images = Photo::where('album_id', $id)->get();
+        // dd($images);
+        return $images;
+    } */
+    public function getImages(Album $album)
+    {
+
+        $images = Photo::where('album_id', $album->id)->get();
+        // dd($images);
+        // return $images;
+        return view('photos.albumimages', ['images' => $images, 'title' => 'IMAGES', 'album' => $album]);
     }
 
     /**

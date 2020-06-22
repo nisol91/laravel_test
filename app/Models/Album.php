@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Photo;
+
 
 class Album extends Model
 {
@@ -26,5 +28,16 @@ class Album extends Model
             $url = 'storage/' . $this->album_thumb;
         }
         return $url;
+    }
+
+
+
+    /*
+    * relazioni
+    */
+
+    public function photos()
+    {
+        return $this->hasMany(Photo::class, 'album_id', 'id');
     }
 }
