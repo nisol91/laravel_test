@@ -17,6 +17,8 @@
         <th>title</th>
         <th>album</th>
         <th>thumb</th>
+        <th>img</th>
+
         <th></th>
 
     </tr>
@@ -28,8 +30,12 @@
         <td>{{$image->name}}</td>
         <td>{{$album->album_name}}</td>
         <td><img src="{{asset($album->path)}}" alt="{{$album->album_name}}" width="120"></td>
+        <td><img src="{{$image->img_path}}" alt="{{$album->album_name}}" width="120"></td>
+
         <td>
         <a href="{{route('photos.destroy', $image->id)}}" class="btn btn-danger deletePhoto">Delete</a>
+            <a href="{{route('photos.edit', $image->id)}}" class="btn btn-primary">edit</a>
+
         </td>
 
 

@@ -57,9 +57,11 @@ class PhotosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Photo $photo)
     {
-        //
+
+        // return $photo;
+        return view('photos.edit', ['title' => 'edit photo', 'id' => $photo->id, 'photo' => $photo]);
     }
 
     /**
@@ -69,9 +71,23 @@ class PhotosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Photo $photo)
     {
-        //
+        // dd($request);
+        // dd(request()->only(['name', 'description']));
+        // return $photo;
+
+
+        $photo->name = request()->input('name');
+        $photo->description = request()->input('description');
+        //per il caricamento di files
+        $img_path = $this->processFile($request, $photo->id, $photo);
+        $result = $photo->save();
+
+
+        $message = $result ? 'ooottimo, foto con id: ' . $photo->id . ' aggiornata' : 'foto non aggiornata :(';
+        session()->flash('message', $message);
+        return redirect("/albums/{$photo->album_id}/images");
     }
 
     /**
