@@ -31,6 +31,8 @@
         <td>{{$album->album_name}}</td>
         <td><img src="{{asset($album->path)}}" alt="{{$album->album_name}}" width="120"></td>
         <td><img src="{{$image->img_path}}" alt="{{$album->album_name}}" width="120"></td>
+        <td><img src="{{asset($image->img_path)}}" alt="{{asset($image->img_path)}}" width="120"></td>
+
 
         <td>
         <a href="{{route('photos.destroy', $image->id)}}" class="btn btn-danger deletePhoto">Delete</a>

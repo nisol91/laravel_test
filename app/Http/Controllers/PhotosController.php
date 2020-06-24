@@ -135,7 +135,10 @@ class PhotosController extends Controller
 
         //nome custom
         $string = $id . '.' . $file->extension();
-        $fileName = $file->storeAs(env('IMG_DIR'), $string);
+
+        // qui agigungo manualmente storage/
+        // in alternativa potevo usare il metodo getPathAttribute nel model (come ho fatto per album)
+        $fileName = $file->storeAs('storage/' . env('IMG_DIR') . '/' . $photo->album_id, $string);
 
         $img_path = $fileName;
         $photo->img_path = $img_path;
