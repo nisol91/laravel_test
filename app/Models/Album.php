@@ -21,10 +21,11 @@ class Album extends Model
 
     // questa helper function mi ritorna il corretto path interno per caricare le foto nel frontend
     // in pratica mi crea un path dell'oggetto album che posso prendere cosi: asset($album->path)
+    // è utile quando si hanno sia path url che path storage
     public function getPathAttribute()
     {
         $url = $this->album_thumb;
-        if (stristr($this->album_thumb, 'http') == false) {
+        if (stristr($url, 'http') == false) {
             $url = 'storage/' . $this->album_thumb;
         }
         return $url;

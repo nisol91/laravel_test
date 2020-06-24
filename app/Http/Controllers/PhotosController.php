@@ -26,7 +26,8 @@ class PhotosController extends Controller
      */
     public function create()
     {
-        //
+        $photo = new Photo();
+        return view('photos.create', ['title' => 'create new image', 'photo' => $photo]);
     }
 
     /**
@@ -136,9 +137,8 @@ class PhotosController extends Controller
         //nome custom
         $string = $id . '.' . $file->extension();
 
-        // qui agigungo manualmente storage/
-        // in alternativa potevo usare il metodo getPathAttribute nel model (come ho fatto per album)
-        $fileName = $file->storeAs('storage/' . env('IMG_DIR') . '/' . $photo->album_id, $string);
+        // uso il metodo getPathAttribute nel model (come ho fatto per album)
+        $fileName = $file->storeAs(env('IMG_DIR') . '/' . $photo->album_id, $string);
 
         $img_path = $fileName;
         $photo->img_path = $img_path;

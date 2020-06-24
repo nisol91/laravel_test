@@ -11,6 +11,14 @@
 @section('content')
 
 <table class="table table-bordered">
+    <div>
+        album {{$album->id}} || album name -> {{$album->album_name}}
+    </div>
+    <div>
+        {{-- nb passo l album id nell'url!!!!! --}}
+    <a href="{{route('photos.create')}}?album_id={{$album->id}}" class="btn btn-dark">New Image</a>
+
+    </div>
     <tr>
         <th>id</th>
         <th>created date</th>
@@ -30,8 +38,7 @@
         <td>{{$image->name}}</td>
         <td>{{$album->album_name}}</td>
         <td><img src="{{asset($album->path)}}" alt="{{$album->album_name}}" width="120"></td>
-        <td><img src="{{$image->img_path}}" alt="{{$album->album_name}}" width="120"></td>
-        <td><img src="{{asset($image->img_path)}}" alt="{{asset($image->img_path)}}" width="120"></td>
+        <td><img src="{{asset($image->path)}}" alt="{{asset($image->path)}}" width="120"></td>
 
 
         <td>

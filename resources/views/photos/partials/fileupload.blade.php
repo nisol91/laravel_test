@@ -5,6 +5,6 @@
 
     <label for="">Thumb</label>
     <input type="file" name="img_path" id="" class="form-control inputfile" placeholder="img_path" aria-describedby="helpId" value="{{$photo->img_path}}" >
-    <img src="{{asset($photo->img_path)}}" alt="{{$photo->name}}">
+    <img src="{{asset($photo->path)}}" alt="{{$photo->name}}">
     </div>
     @endif
