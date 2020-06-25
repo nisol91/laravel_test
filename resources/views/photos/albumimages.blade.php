@@ -16,7 +16,7 @@
     </div>
     <div>
         {{-- nb passo l album id nell'url!!!!! --}}
-    <a href="{{route('photos.create')}}?album_id={{$album->id}}" class="btn btn-dark">New Image</a>
+    <a href="{{route('photos.create', ['album' => $album->id])}}" class="btn btn-dark">New Image</a>
 
     </div>
     <tr>

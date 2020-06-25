@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Photo;
+use App\Models\Album;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -24,10 +25,12 @@ class PhotosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $req)
     {
+        $album_id = $req->input('album');
+        $album = Album::findOrFail($album_id);
         $photo = new Photo();
-        return view('photos.create', ['title' => 'create new image', 'photo' => $photo]);
+        return view('photos.create', ['title' => 'create new image', 'photo' => $photo, 'album' => $album]);
     }
 
     /**
@@ -38,7 +41,29 @@ class PhotosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $photo = new Photo();
+        $photo->name = request()->input('name');
+        $photo->description = request()->input('description');
+        $photo->album_id = request()->input('album_id');
+        $photo->img_path = '';
+        $result = $photo->save();
+        //dd($result);
+        //per il caricamento di files
+        if ($result) {
+            $fileProcessed = $this->processFile(request(), $photo->id, $photo);
+            if ($fileProcessed) {
+                $result = $photo->save();
+            }
+        }
+
+
+        $message = $result ? 'ooottimo, foto con id: ' . $photo->id . ' e nome ' . request()->input('name') . ' creata' : 'qualcosa è andato storto :(';
+
+        //salvo in sessione il messaggio
+        session()->flash('message', $message);
+
+        //redirect a tutti gli album
+        return redirect("/albums/{$photo->album_id}/images");
     }
 
     /**

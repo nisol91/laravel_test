@@ -323,7 +323,7 @@ class AlbumsController extends Controller
     public function getImages(Album $album)
     {
 
-        $images = Photo::where('album_id', $album->id)->get();
+        $images = Photo::where('album_id', $album->id)->latest()->get();
         // dd($images);
         // return $images;
         return view('photos.albumimages', ['images' => $images, 'title' => 'IMAGES', 'album' => $album]);
