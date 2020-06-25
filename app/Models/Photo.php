@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Album;
+
 
 class Photo extends Model
 {
@@ -17,5 +19,17 @@ class Photo extends Model
             $url = 'storage/' . $this->img_path;
         }
         return $url;
+    }
+
+    /*
+    * relazioni
+    */
+    public function album()
+    {
+        // album_id e id sarebbero sottointese ma le specifico comunque per completezza
+        return $this->belongsTo(Album::class, 'album_id', 'id');
+
+        //grazie a questa relazione, posso ritornare l'album legato a quella foto scrivendo
+        // semplicemente $photo->album, posto che io abbia usato il type hinting (Photo $photo)
     }
 }

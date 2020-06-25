@@ -20,13 +20,21 @@
       <label for="">Description</label>
       <textarea name="description" id="" class="form-control" placeholder="desc" aria-describedby="helpId"></textarea>
     </div>
+    <div class="form-group">
+        <select name="album_id" id="album_id">
+            <option value="">select album</option>
+        @foreach ($albums as $item)
+        <option {{($item->id == $album->id)?'selected':''}} value="{{$item->id}}">{{$item->album_name}}</option>
+        @endforeach
+        </select>
+
+    </div>
      <div class="form-group">
 
       <label for="">Thumb</label>
     <input type="file" name="img_path" id="" class="form-control" placeholder="img_path" aria-describedby="helpId" value="" >
 
     </div>
-<input type="hidden" name="album_id" value="{{$album->id}}">
     <button type="submit" class="btn btn-primary">Create new image</button>
 </form>
 

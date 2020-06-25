@@ -29,8 +29,9 @@ class PhotosController extends Controller
     {
         $album_id = $req->input('album');
         $album = Album::findOrFail($album_id);
+        $albums = $this->getAlbums();
         $photo = new Photo();
-        return view('photos.create', ['title' => 'create new image', 'photo' => $photo, 'album' => $album]);
+        return view('photos.create', ['title' => 'create new image', 'photo' => $photo, 'album' => $album, 'albums' => $albums]);
     }
 
     /**
@@ -85,9 +86,10 @@ class PhotosController extends Controller
      */
     public function edit(Photo $photo)
     {
-
+        $albums = $this->getAlbums();
+        $album = $photo->album;
         // return $photo;
-        return view('photos.edit', ['title' => 'edit photo', 'id' => $photo->id, 'photo' => $photo]);
+        return view('photos.edit', ['title' => 'edit photo', 'id' => $photo->id, 'photo' => $photo, 'albums' => $albums, 'album' => $album]);
     }
 
     /**
@@ -106,6 +108,8 @@ class PhotosController extends Controller
 
         $photo->name = request()->input('name');
         $photo->description = request()->input('description');
+        $photo->album_id = request()->input('album_id');
+
         //per il caricamento di files
         $img_path = $this->processFile($request, $photo->id, $photo);
         $result = $photo->save();
@@ -168,5 +172,11 @@ class PhotosController extends Controller
         $img_path = $fileName;
         $photo->img_path = $img_path;
         return true;
+    }
+
+    public function getAlbums()
+    {
+        $albums = Album::orderBy('album_name')->get();
+        return $albums;
     }
 }

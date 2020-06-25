@@ -28,6 +28,15 @@
       <textarea name="description" id="" class="form-control" placeholder="desc" aria-describedby="helpId">{{$photo->description}}</textarea>
 
     </div>
+    <div class="form-group">
+        <select name="album_id" id="album_id">
+            <option value="">select album</option>
+        @foreach ($albums as $item)
+        <option {{($item->id == $album->id)?'selected':''}} value="{{$item->id}}">{{$item->album_name}}</option>
+        @endforeach
+        </select>
+
+    </div>
     @include('photos.partials.fileupload')
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
