@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Album;
 use Illuminate\Database\Seeder;
 
 class PhotosTableSeeder extends Seeder
@@ -11,6 +12,12 @@ class PhotosTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Photo::class, 20)->create();
+        //prendo tutti gli album
+        $albums = Album::get();
+        foreach ($albums as $album) {
+            factory(App\Models\Photo::class, 50)->create(
+                ['album_id' => $album->id]
+            );
+        }
     }
 }

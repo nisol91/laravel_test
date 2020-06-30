@@ -9,6 +9,8 @@
 
 <h1 >{{$title}}</h1>
 @section('content')
+    @include('partials.errors_form')
+
 <form action="{{route('saveNewAlbum')}}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
 
@@ -16,14 +18,15 @@
     <div class="form-group">
 
       <label for="">Name</label>
-    <input type="text" name="name" id="" class="form-control" placeholder="name" aria-describedby="helpId" value="">
+    <input type="text" required name="name" id="" class="form-control" placeholder="name" aria-describedby="helpId" value="{{old('name')}}">
       <label for="">Description</label>
-      <textarea name="description" id="" class="form-control" placeholder="desc" aria-describedby="helpId"></textarea>
+      {{-- old mi permette di tenere  valori che hanno passato la validazione --}}
+      <textarea name="description" required id="" class="form-control" placeholder="desc" aria-describedby="helpId">{{old('description')}}</textarea>
     </div>
      <div class="form-group">
 
       <label for="">Thumb</label>
-    <input type="file" name="album_thumb" id="" class="form-control" placeholder="album_thumb" aria-describedby="helpId" value="" >
+    <input required type="file" name="album_thumb" id="" class="form-control" placeholder="album_thumb" aria-describedby="helpId" value="" >
 
     </div>
     {{-- <input type="hidden" name="user_id" value="1"> --}}

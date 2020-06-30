@@ -58,6 +58,9 @@
             </tr>
         @endforelse
 </table>
+<div>
+    {{$images->links('vendor.pagination.bootstrap-4')}}
+</div>
 @endsection
 @section('footer')
 @parent

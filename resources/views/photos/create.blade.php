@@ -10,6 +10,8 @@
 <h1 >{{$title}}</h1>
 
 @section('content')
+    @include('partials.errors_form')
+
 <form action="{{route('photos.store')}}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
 

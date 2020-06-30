@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AlbumCreationRequest;
+use App\Http\Requests\AlbumEditRequest;
 use App\Models\Album;
 use App\Models\Photo;
 use Illuminate\Http\Request;
@@ -164,7 +166,7 @@ class AlbumsController extends Controller
 
 
     // salva i dati per EDIT
-    public function store($id, Request $request)
+    public function store($id, AlbumEditRequest $request)
     {
         /*
         // dd(request()->all());
@@ -224,7 +226,8 @@ class AlbumsController extends Controller
         return view('albums.create', ['title' => 'create new album', 'album' => $album]);
     }
 
-    public function saveNewAlbum()
+    //AlbumRequest è la http request del form di salvataggio, mi basta iniettarla (type hinting) nel metodo, non serve altro
+    public function saveNewAlbum(AlbumCreationRequest $request)
     {
         /*
         // dd(request()->all());
@@ -323,7 +326,9 @@ class AlbumsController extends Controller
     public function getImages(Album $album)
     {
 
-        $images = Photo::where('album_id', $album->id)->latest()->get();
+        // $images = Photo::where('album_id', $album->id)->latest()->get();
+        $images = Photo::where('album_id', $album->id)->paginate(env('IMG_PER_PAGE'));
+
         // dd($images);
         // return $images;
         return view('photos.albumimages', ['images' => $images, 'title' => 'IMAGES', 'album' => $album]);

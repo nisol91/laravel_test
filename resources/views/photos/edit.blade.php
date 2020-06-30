@@ -9,6 +9,8 @@
 
 <h1 >{{$title}} {{$id}}</h1>
 @section('content')
+    @include('partials.errors_form')
+
 <form action="{{route('photos.update', $photo->id)}}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     {{-- equivale a --}}
