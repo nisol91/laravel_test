@@ -7,11 +7,23 @@ use App\Http\Requests\AlbumEditRequest;
 use App\Models\Album;
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class AlbumsController extends Controller
 {
+
+    public function __construct()
+    {
+
+        /* alternativamente a dichiararlo nelle routes (web, api), posso dire nel costruttore di mettermi sotto
+        middleware certe routes
+        */
+        // $this->middleware('auth')->only(['create', 'edit']);
+        // $this->middleware('auth')->except(['index']);
+
+    }
     public function index(Request $request)
     {
 
@@ -75,7 +87,12 @@ class AlbumsController extends Controller
         // metodo con il query builder di laravel
         // $queryBuilder = Album::orderBy('id', 'desc'); -->> senza usare il Model di Eloquent
         $queryBuilder = Album::orderBy('id', 'desc')->withCount('photos');
-        // NB il primo metodo che si chiama deve sempre essere STATICO (::)
+        // NB il primo metodo che si chiama deve sempre essere STATICO (::), poi uso la freccia ->
+
+        // filtro solo gli album dell utente
+        $queryBuilder->where('user_id', Auth::user()->id);
+        //in alternativa per accedere ai dati dlel utente:
+        // $request->user()
 
 
         // ?id=12 (per avere filtri per id)
@@ -207,6 +224,8 @@ class AlbumsController extends Controller
         $album = Album::find($id);
         $album->album_name = request()->input('name');
         $album->description = request()->input('description');
+        $album->user_id = $request->user()->id;
+
         //per il caricamento di files
         $album_thumb = $this->processFile($request, $id, $album);
         $result = $album->save();
@@ -246,7 +265,7 @@ class AlbumsController extends Controller
         */
         //****************
         // metodo con il query builder di laravel
-        $id = 1;
+        $id = $request->user()->id;
 
 
         // $queryBuilder = Album::insert(

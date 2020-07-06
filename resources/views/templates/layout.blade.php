@@ -31,6 +31,8 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
+            @if (Auth::check())
+
           <li class="nav-item active">
             <a class="nav-link" href="{{route('allAlbums')}}">Home <span class="sr-only">(current)</span></a>
           </li>
@@ -60,6 +62,8 @@
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+            @endif
+
       </div>
 <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

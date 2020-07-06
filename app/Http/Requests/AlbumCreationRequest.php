@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 
-// per la validazione posso creare un middleware che mi controlli che la richiesta sia ben fatta
+// per la validazione creo un middleware che mi controlli che la richiesta sia ben fatta
 class AlbumCreationRequest extends FormRequest
 {
     /**

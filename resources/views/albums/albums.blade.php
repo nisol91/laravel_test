@@ -21,7 +21,9 @@
 <form action="">
     <input type="hidden" value="{{ csrf_token() }}" id="_token" name="_token">
 </form>
+@if (count($albums) !== 0)
 <ul class="list-group">
+
     @foreach ($albums as $album)
     <li class="list-group-item albumListElement">
         {{$album->album_name}} {{$album->id}}
@@ -42,7 +44,11 @@
 
     </li>
     @endforeach
+
 </ul>
+@else
+<h2>no albums found</h2>
+@endif
 
 @endsection
 @section('footer')

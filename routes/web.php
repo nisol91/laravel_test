@@ -38,7 +38,7 @@ Route::get('/welcomeController', 'WelcomeController@welcome');
 // *******
 
 
-Route::get('/albums', 'AlbumsController@index')->name('allAlbums');
+// Route::get('/albums', 'AlbumsController@index')->name('allAlbums');
 // Route::get('/albums/{id}/delete', 'AlbumsController@delete');
 //bisogna sempre cautelarsi perchè l'id sia numerico, per evitare che una rotta tipo albums/create
 // si confonda con albums/{id}
@@ -48,7 +48,7 @@ Route::get('/albums/{album}/images', 'AlbumsController@getImages')->name('albumI
 Route::delete('/albums/{id}', 'AlbumsController@delete');
 Route::patch('/albums/{id}', 'AlbumsController@store');
 Route::post('/albums', 'AlbumsController@saveNewAlbum')->name('saveNewAlbum');
-Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
+// Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
 Route::get('/users-with-no-album', 'AlbumsController@usersNoAlbum');
 
 
@@ -76,6 +76,12 @@ Route::get('/photos', function () {
 });
 
 Auth::routes();
+
+// qui dentro metto tutte le routes protette da middleware
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
+    Route::get('/albums', 'AlbumsController@index')->name('allAlbums');
+});
 
 Route::get('/home', 'AlbumsController@index')->name('allAlbums')->middleware('auth');
 // Route::get('/home', 'HomeController@index');

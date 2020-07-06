@@ -28,6 +28,20 @@ class PhotosController extends Controller
     ];
 
 
+    public function __construct()
+    {
+
+        /* alternativamente a dichiararlo nelle routes (web, api), posso dire nel costruttore di mettermi sotto
+        middleware certe routes
+        */
+        $this->middleware('auth');
+
+        // $this->middleware('auth')->only(['create', 'edit']);
+        // $this->middleware('auth')->except(['index']);
+
+    }
+
+
     /**
      * Display a listing of the resource.
      *
