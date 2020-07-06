@@ -1,19 +1,8 @@
-//
-body {
-    padding: 150px;
-}
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
-.albumListElement {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+// Variables
+@import 'variables';
 
-.imgBox {
-    width: 100%;
-
-    img {
-        max-width: 50%;
-        padding: 30px;
-    }
-}
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';

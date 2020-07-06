@@ -74,3 +74,8 @@ Route::get('/users', function () {
 Route::get('/photos', function () {
     return Photo::all();
 });
+
+Auth::routes();
+
+Route::get('/home', 'AlbumsController@index')->name('allAlbums')->middleware('auth');
+// Route::get('/home', 'HomeController@index');
