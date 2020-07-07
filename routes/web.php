@@ -73,8 +73,11 @@ Route::get('/photos', function () {
 });
 
 Auth::routes();
-
-// qui dentro metto tutte le routes protette da middleware
+// qui dentro metto tutte le routes pubbliche
+Route::group(['middleware' => 'auth', 'prefix' => 'public'], function () {
+    Route::get('/galleries', 'GalleryController@index')->name('getGalleries');
+});
+// qui dentro metto tutte le routes protette da middleware auth
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
     Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
     Route::get('/albums', 'AlbumsController@index')->name('allAlbums');

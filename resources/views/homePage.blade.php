@@ -9,7 +9,10 @@
 <div class="alert alert-success" role="alert">
                            Benvenuto in Laravel test
                         </div>
+<div>
 
+<a href="{{route('getGalleries')}}">guarda le gallerie pubbliche</a>
+</div>
                     @endif
 
 

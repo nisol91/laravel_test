@@ -10941,3 +10941,14 @@ a.text-dark:focus {
   width: 100%;
 }
 
+.cardBox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carta {
+  width: 45% !important;
+}
+
