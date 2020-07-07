@@ -68,7 +68,7 @@ Auth::routes();
 
 
 // qui dentro metto tutte le routes pubbliche
-Route::group(['middleware' => 'auth', 'prefix' => 'public'], function () {
+Route::group(['prefix' => 'public'], function () {
     Route::get('/galleries', 'GalleryController@index')->name('getGalleries');
     Route::get('/galleries/{album}/images', 'GalleryController@showImages')->name('getGalleryImages');
 });

@@ -33,6 +33,8 @@
     @endif
   <div class="card-body">
     <h5 class="card-title">{{$album->album_name}} - {{$album->id}}</h5>
+    <h5 class="card-title">{{$album->user->name}}</h5>
+
     <h5 class="card-title">{{$album->created_at->diffForHumans()}}</h5>
   <a href="{{route('getGalleryImages', $album->id)}}">go to gallery</a>
 

@@ -21,6 +21,17 @@
     }
 }
 
+.imgGalleryBox {
+    border: 1px solid grey;
+}
+
+.galleryImages {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .cardBox {
     display: flex;
     flex-direction: row;
