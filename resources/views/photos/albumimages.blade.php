@@ -32,7 +32,7 @@
     @forelse ($images as $image)
         <tr>
         <td>{{$image->id}}</td>
-        <td>{{$image->created_at}}</td>
+        <td>{{$image->created_at->diffForHumans()}} - ({{$image->created_at->format('d/m/Y h:i')}})</td>
         <td>{{$image->album->user->fullname}}</td>
 
         <td>{{$image->name}}</td>

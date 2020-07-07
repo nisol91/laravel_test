@@ -15,6 +15,6 @@ class AlbumsTableSeeder extends Seeder
     public function run()
     {
 
-        factory(App\Models\Album::class, 30)->create();
+        factory(App\Models\Album::class, 30)->create(['user_id' => 31]);
     }
 }

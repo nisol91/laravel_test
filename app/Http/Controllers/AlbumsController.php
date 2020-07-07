@@ -88,6 +88,7 @@ class AlbumsController extends Controller
         // metodo con il query builder di laravel
         // $queryBuilder = Album::orderBy('id', 'desc'); -->> senza usare il Model di Eloquent
         $queryBuilder = Album::orderBy('id', 'desc')->withCount('photos');
+
         // NB il primo metodo che si chiama deve sempre essere STATICO (::), poi uso la freccia ->
 
         // filtro solo gli album dell utente
@@ -105,7 +106,7 @@ class AlbumsController extends Controller
             $queryBuilder->where('album_name', 'like', '%' . $request->input('album_name') . '%');
         }
         // col get ritorno sempre la collection, e lo faccio dopo aver filtrato
-        $albums = $queryBuilder->get();
+        $albums = $queryBuilder->paginate(4);
         // dd($albums);
         return view('albums.albums', ['albums' => $albums, 'title' => 'ALBUMS']);
     }
@@ -146,8 +147,12 @@ class AlbumsController extends Controller
             }
         }
 
-
-        return $res;
+        // se anche l'ajax non funzionasse, lui elimina lo stesso perchè mi fa un redirect
+        if (request()->ajax()) {
+            return '' . $res;
+        } else {
+            return redirect()->route('allAlbums');
+        }
     }
 
     public function show($id)
