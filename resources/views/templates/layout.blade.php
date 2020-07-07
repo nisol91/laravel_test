@@ -17,6 +17,11 @@
 
     {{-- css --}}
     <link rel="stylesheet" href="/css/app.css">
+    {{-- fontawesome --}}
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/fontawesome.css">
+
+
      <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
   </head>

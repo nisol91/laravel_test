@@ -1,15 +1,12 @@
 
 @extends('templates.layout')
+
+@section('content')
 @if (session()->has('message'))
-
-
 @component('components.allerta')
     {{session()->get('message')}}
 @endcomponent
-
 @endif
-@section('content')
-
 <table class="table table-bordered">
     <div>
         album {{$album->id}} || album name -> {{$album->album_name}}
@@ -22,6 +19,7 @@
     <tr>
         <th>id</th>
         <th>created date</th>
+        <th>author</th>
         <th>title</th>
         <th>album</th>
         <th>thumb</th>
@@ -35,6 +33,8 @@
         <tr>
         <td>{{$image->id}}</td>
         <td>{{$image->created_at}}</td>
+        <td>{{$image->album->user->fullname}}</td>
+
         <td>{{$image->name}}</td>
         <td>{{$album->album_name}}</td>
         <td><img src="{{asset($album->path)}}" alt="{{$album->album_name}}" width="120"></td>
@@ -42,7 +42,7 @@
 
 
         <td>
-        <a href="{{route('photos.destroy', $image->id)}}" class="btn btn-danger deletePhoto">Delete</a>
+        <a title="delete" href="{{route('photos.destroy', $image->id)}}" class="btn btn-danger deletePhoto"> <i class="fas fa-minus"></i></a>
             <a href="{{route('photos.edit', $image->id)}}" class="btn btn-primary">edit</a>
 
         </td>

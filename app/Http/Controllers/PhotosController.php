@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Photo;
 use App\Models\Album;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -39,6 +40,9 @@ class PhotosController extends Controller
         // $this->middleware('auth')->only(['create', 'edit']);
         // $this->middleware('auth')->except(['index']);
 
+
+        // in aggiunta proteggo tutta la risorsa:
+        $this->authorizeResource(Photo::class);
     }
 
 
@@ -101,7 +105,7 @@ class PhotosController extends Controller
         session()->flash('message', $message);
 
         //redirect a tutti gli album
-        return redirect("/albums/{$photo->album_id}/images");
+        return redirect(route('albumImages', $photo->album_id));
     }
 
     /**
@@ -219,7 +223,7 @@ class PhotosController extends Controller
 
     public function getAlbums()
     {
-        $albums = Album::orderBy('album_name')->get();
+        $albums = Album::orderBy('album_name')->where('user_id', Auth::user()->id)->get();
         return $albums;
     }
 }

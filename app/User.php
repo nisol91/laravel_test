@@ -39,9 +39,22 @@ class User extends Authenticatable
     ];
 
 
-
+    /*
+        relations
+    */
     public function albums()
     {
         return $this->hasMany(Album::class);
+    }
+
+
+
+    /*
+        accessors - mutators
+    */
+    public function getFullNameAttribute()
+    {
+
+        return $this->name;
     }
 }

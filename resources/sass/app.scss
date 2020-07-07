@@ -6,3 +6,17 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+
+.mainBox {
+    padding-top: 100px;
+}
+
+.imgBox {
+    width: 100px;
+    margin: 20px;
+
+    img {
+        width: 100%;
+    }
+}

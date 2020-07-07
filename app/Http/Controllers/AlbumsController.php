@@ -192,9 +192,14 @@ class AlbumsController extends Controller
 
         // in alternativa si puo usare un gate, nel authserviceprovider
         // lo user è iniettato nella funzione del gate automaticamente, dobbiamo dargli solo l'album
-        if (\Gate::denies('manage-album', $album)) {
-            abort(401, 'non sei autorizzato');
-        }
+        // if (\Gate::denies('manage-album', $album)) {
+        //     abort(401, 'non sei autorizzato');
+        // }
+
+
+        // il terzo modo è usare le policy
+        $this->authorize($album);
+
 
 
 

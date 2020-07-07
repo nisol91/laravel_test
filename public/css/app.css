@@ -10928,15 +10928,16 @@ a.text-dark:focus {
   }
 }
 
+.mainBox {
+  padding-top: 100px;
+}
+
 .imgBox {
-  width: 200px;
+  width: 100px;
+  margin: 20px;
 }
 
 .imgBox img {
   width: 100%;
-}
-
-.mainBox {
-  margin-top: 80px;
 }
 
