@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Album;
 use Illuminate\Foundation\Http\FormRequest;
 
 
@@ -15,6 +16,10 @@ class AlbumEditRequest extends FormRequest
      */
     public function authorize()
     {
+        $album = Album::find($this->id);
+        if (\Gate::denies('manage-album', $album)) {
+            return false;
+        }
         return true;
     }
 

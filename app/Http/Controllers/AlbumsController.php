@@ -6,6 +6,7 @@ use App\Http\Requests\AlbumCreationRequest;
 use App\Http\Requests\AlbumEditRequest;
 use App\Models\Album;
 use App\Models\Photo;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -175,10 +176,29 @@ class AlbumsController extends Controller
 
         //****************
         // metodo con il query builder di laravel
-        $queryBuilder = Album::where('id', '=', $id)->get();
-        $album = $queryBuilder;
+        // $queryBuilder = Album::where('id', '=', $id)->get();
+        // $album = $queryBuilder;
+
+        // oppure
+        $album = Album::find($id);
         // dd($album);
-        return view('albums.edit', ['title' => 'edit', 'id' => $id, 'album' => $album[0]]);
+        // dd(Auth::user()->id);
+
+        // questo mi protegge dal fatto che un utente non scriva un altro id nella query string
+        // $album->user viene dalla relazione definita nel model, se no potevo scrivere $album->user_id
+        /* if ($album->user->id !== Auth::user()->id) {
+            abort(401, 'non sei autorizzato');
+        } */
+
+        // in alternativa si puo usare un gate, nel authserviceprovider
+        // lo user è iniettato nella funzione del gate automaticamente, dobbiamo dargli solo l'album
+        if (\Gate::denies('manage-album', $album)) {
+            abort(401, 'non sei autorizzato');
+        }
+
+
+
+        return view('albums.edit', ['title' => 'edit', 'id' => $id, 'album' => $album]);
     }
 
 

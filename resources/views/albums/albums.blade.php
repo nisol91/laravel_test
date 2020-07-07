@@ -36,6 +36,9 @@
             @if ($album->photos_count)
 
         <a href="/albums/{{$album->id}}/images" class="btn btn-primary">view images({{$album->photos_count}})</a>
+        @else
+        <a href="/albums/{{$album->id}}/images" class="btn btn-primary">add your first images</a>
+
             @endif
 
             <a href="/albums/{{$album->id}}/edit" class="btn btn-primary">edit</a>

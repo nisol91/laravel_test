@@ -83,5 +83,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/albums', 'AlbumsController@index')->name('allAlbums');
 });
 
-Route::get('/home', 'AlbumsController@index')->name('allAlbums')->middleware('auth');
+Route::get('/home', 'HomeController@index')->name('homePage')->middleware('auth');
 // Route::get('/home', 'HomeController@index');
