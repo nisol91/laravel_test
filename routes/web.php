@@ -52,16 +52,8 @@ Route::get('/users-with-no-album', 'AlbumsController@usersNoAlbum');
 //mi genera automaticamente tutte le rotte per Photos
 Route::resource('photos', 'PhotosController');
 
-
-
 //la rotta /albums/{id} è sempre la stessa, ma in base a se la chiamo dal frontend col DELETE o col GET o col PATCH
 // mi va a chiamare un differente metodo del controller delete->delete, get->show, patch->store
-
-
-
-
-
-
 
 
 Route::get('/users', function () {
@@ -73,10 +65,15 @@ Route::get('/photos', function () {
 });
 
 Auth::routes();
+
+
 // qui dentro metto tutte le routes pubbliche
 Route::group(['middleware' => 'auth', 'prefix' => 'public'], function () {
     Route::get('/galleries', 'GalleryController@index')->name('getGalleries');
+    Route::get('/galleries/{album}/images', 'GalleryController@showImages')->name('getGalleryImages');
 });
+
+
 // qui dentro metto tutte le routes protette da middleware auth
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
     Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
