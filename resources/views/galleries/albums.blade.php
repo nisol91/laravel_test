@@ -34,9 +34,9 @@
   <div class="card-body">
     <h5 class="card-title">{{$album->album_name}} - {{$album->id}}</h5>
     <h5 class="card-title">{{$album->user->name}}</h5>
-    <div class="flex_1">
-@foreach ($album->categories as $item)
-    <h5 class="card-title">{{$item->category_name}}</h5>
+    <div class="flex_1 catBox">
+@foreach ($album->categories as $cat)
+    <a href="{{ route('gallery.category', $cat->id) }}" class="card-title">{{$cat->category_name}}</a>
     @endforeach
     </div>
 

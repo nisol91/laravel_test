@@ -73,6 +73,7 @@ Auth::routes();
 Route::group(['prefix' => 'public'], function () {
     Route::get('/galleries', 'GalleryController@index')->name('getGalleries');
     Route::get('/galleries/{album}/images', 'GalleryController@showImages')->name('getGalleryImages');
+    Route::get('/category/{category}', 'GalleryController@showAlbumsByCategory')->name('gallery.category');
 });
 
 

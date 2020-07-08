@@ -89,6 +89,8 @@ class AlbumsController extends Controller
         // $queryBuilder = Album::orderBy('id', 'desc'); -->> senza usare il Model di Eloquent
         $queryBuilder = Album::orderBy('id', 'desc')->withCount('photos');
 
+
+
         // NB il primo metodo che si chiama deve sempre essere STATICO (::), poi uso la freccia ->
 
         // filtro solo gli album dell utente

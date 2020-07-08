@@ -10970,3 +10970,8 @@ a.text-dark:focus {
   margin: 10px !important;
 }
 
+.catBox {
+  border: 1px solid #522828;
+  border-radius: 10px;
+}
+

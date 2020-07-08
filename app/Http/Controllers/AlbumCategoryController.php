@@ -16,8 +16,7 @@ class AlbumCategoryController extends Controller
     {
         // return AlbumCategory::get();
 
-        // in alternativa posso caricare, con l' eagerloading, tutti gli album
-        // legati a quella categoria, questo perchè c'è una relazione
+        // eager loading: carico tutti gli album che hanno quella category
         return AlbumCategory::with('albums')->get();
     }
 
