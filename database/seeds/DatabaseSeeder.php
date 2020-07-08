@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Album;
+use App\Models\AlbumCategory;
 use App\Models\Photo;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -15,6 +16,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // questo run chiama tutti i seeder
+
         // qui posso chiamare tutti i seeds cancellando prima le tabelle, e posso farlo
         // con un unico comando php artisan db:seed
 
@@ -22,8 +25,11 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         Album::truncate();
         Photo::truncate();
+        AlbumCategory::truncate();
+
 
         $this->call(UsersTableSeeder::class);
+        $this->call(SeedAlbumCategoriesTable::class);
         $this->call(AlbumsTableSeeder::class);
         $this->call(PhotosTableSeeder::class);
     }

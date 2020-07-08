@@ -11,6 +11,7 @@ class GalleryController extends Controller
     public function index(Request $request)
     {
         $albums = Album::orderBy('id', 'DESC')->paginate(10);
+
         return view('galleries.albums', ['albums' => $albums, 'title' => 'ALBUMS']);
     }
 

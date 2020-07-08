@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Album;
+use App\Models\AlbumCategory;
 use App\Models\Photo;
 use App\User;
 use Faker\Generator as Faker;

@@ -34,6 +34,13 @@
   <div class="card-body">
     <h5 class="card-title">{{$album->album_name}} - {{$album->id}}</h5>
     <h5 class="card-title">{{$album->user->name}}</h5>
+    <div class="flex_1">
+@foreach ($album->categories as $item)
+    <h5 class="card-title">{{$item->category_name}}</h5>
+    @endforeach
+    </div>
+
+
 
     <h5 class="card-title">{{$album->created_at->diffForHumans()}}</h5>
   <a href="{{route('getGalleryImages', $album->id)}}">go to gallery</a>

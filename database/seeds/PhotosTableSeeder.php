@@ -15,6 +15,7 @@ class PhotosTableSeeder extends Seeder
         //prendo tutti gli album
         $albums = Album::get();
         foreach ($albums as $album) {
+            // fa andare le funzioni delle factories
             factory(App\Models\Photo::class, 50)->create(
                 ['album_id' => $album->id]
             );

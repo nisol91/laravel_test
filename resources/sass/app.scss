@@ -12,6 +12,12 @@
     padding-top: 100px;
 }
 
+.flex_1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .imgBox {
     width: 100px;
     margin: 20px;

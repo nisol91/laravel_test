@@ -46,4 +46,11 @@ class Album extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+    public function categories()
+    {
+        //'album _category' è la tabella ponte
+        return $this->belongsToMany(AlbumCategory::class, 'album_category', 'album_id', 'category_id');
+    }
 }
