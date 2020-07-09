@@ -29,6 +29,15 @@
     <input required type="file" name="album_thumb" id="" class="form-control" placeholder="album_thumb" aria-describedby="helpId" value="" >
 
     </div>
+     <div class="form-group">
+         <label for="categories">Categories</label>
+         {{-- nb ricorda che serve [] se usi select multiple --}}
+         <select name="categories[]" id="categories" multiple class="form-control" size="5">
+             @foreach ($categories as $category)
+         <option value="{{$category->id}}">{{$category->category_name}}</option>
+             @endforeach
+         </select>
+     </div>
     {{-- <input type="hidden" name="user_id" value="1"> --}}
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

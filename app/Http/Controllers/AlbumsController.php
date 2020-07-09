@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AlbumCreationRequest;
 use App\Http\Requests\AlbumEditRequest;
 use App\Models\Album;
+use App\Models\AlbumCategory;
 use App\Models\Photo;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
@@ -87,8 +88,8 @@ class AlbumsController extends Controller
         //****************
         // metodo con il query builder di laravel
         // $queryBuilder = Album::orderBy('id', 'desc'); -->> senza usare il Model di Eloquent
-        $queryBuilder = Album::orderBy('id', 'desc')->withCount('photos');
-
+        $queryBuilder = Album::orderBy('id', 'desc')->withCount('photos')->with('categories');
+        // anche qui uso eager loading per le categories
 
 
         // NB il primo metodo che si chiama deve sempre essere STATICO (::), poi uso la freccia ->
@@ -208,9 +209,13 @@ class AlbumsController extends Controller
         $this->authorize($album);
 
 
+        $categories = AlbumCategory::get();
 
-
-        return view('albums.edit', ['title' => 'edit', 'id' => $id, 'album' => $album]);
+        //col toArray trasformo le categorie da istanza di oggetti ad array
+        // col pluck seleziono solo l'id (non andrebbe bene $album->categories->id)
+        $selectedCategories = $album->categories->pluck('id')->toArray();
+        // dd($selectedCategories);
+        return view('albums.edit', ['title' => 'edit', 'id' => $id, 'album' => $album, 'categories' => $categories, 'selectedCategories' => $selectedCategories]);
     }
 
 
@@ -262,6 +267,9 @@ class AlbumsController extends Controller
         $album_thumb = $this->processFile($request, $id, $album);
         $result = $album->save();
 
+        // col sync vado a fare l'update di tutte le categorie.
+        $album->categories()->sync($request->categories);
+
 
         $message = $result ? 'ooottimo, album con id: ' . $id . ' aggiornato' : 'non aggiornato :(';
         session()->flash('message', $message);
@@ -274,7 +282,8 @@ class AlbumsController extends Controller
         //per sicurezza istanzio un album vuoto all'inizio
         // cosi se nel frontend ci sono variabili $album, posso
         $album = new Album();
-        return view('albums.create', ['title' => 'create new album', 'album' => $album]);
+        $categories = AlbumCategory::get();
+        return view('albums.create', ['title' => 'create new album', 'album' => $album, 'categories' => $categories]);
     }
 
     //AlbumRequest è la http request del form di salvataggio, mi basta iniettarla (type hinting) nel metodo, non serve altro
@@ -333,8 +342,21 @@ class AlbumsController extends Controller
         $album->album_thumb = '';
         $result = $album->save();
         //dd($result);
-        //per il caricamento di files
+
+
+
+
+
+        // se il salvataggio è andato a buon fine (e quindi abbiamo un album->id)
         if ($result) {
+
+
+            // per il salvataggio delle categorie
+            if ($request->has('categories')) {
+                $album->categories()->attach($request->input('categories'));
+                // vale anche $request->categories
+            }
+            //per il caricamento di files
             $fileProcessed = $this->processFile(request(), $album->id, $album);
             if ($fileProcessed) {
                 $result = $album->save();

@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+// ** esempi**
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,28 +39,7 @@ Route::get('/nome/{name?}/{lastname?}/{age?}', function ($name = '', $lastname =
 Route::get('/welcomeController', 'WelcomeController@welcome');
 
 
-// *******
-
-
-// Route::get('/albums', 'AlbumsController@index')->name('allAlbums');
-// Route::get('/albums/{id}/delete', 'AlbumsController@delete');
-//bisogna sempre cautelarsi perchè l'id sia numerico, per evitare che una rotta tipo albums/create
-// si confonda con albums/{id}
-Route::get('/albums/{id}', 'AlbumsController@show')->where('id', '[0-9]+');
-Route::patch('/albums/{id}', 'AlbumsController@store')->name('photos.store');
-
-// Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
 Route::get('/users-with-no-album', 'AlbumsController@usersNoAlbum');
-
-
-//mi genera automaticamente tutte le rotte per Photos
-Route::resource('photos', 'PhotosController');
-//mi genera automaticamente tutte le rotte per Photos
-Route::resource('category', 'AlbumCategoryController');
-
-//la rotta /albums/{id} è sempre la stessa, ma in base a se la chiamo dal frontend col DELETE o col GET o col PATCH
-// mi va a chiamare un differente metodo del controller delete->delete, get->show, patch->store
-
 
 Route::get('/users', function () {
     return User::all();
@@ -66,6 +49,17 @@ Route::get('/photos', function () {
     return Photo::all();
 });
 
+// *******
+
+
+
+//mi genera automaticamente tutte le rotte per Photos
+Route::resource('photos', 'PhotosController');
+//mi genera automaticamente tutte le rotte per Photos
+Route::resource('category', 'AlbumCategoryController');
+
+
+// le routes di authentication
 Auth::routes();
 
 
@@ -79,13 +73,22 @@ Route::group(['prefix' => 'public'], function () {
 
 // qui dentro metto tutte le routes protette da middleware auth
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
-    Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
+    //bisogna sempre cautelarsi perchè l'id sia numerico, per evitare che una rotta tipo albums/create
+    // si confonda con albums/{id}
+
+    Route::get('/albums/{id}', 'AlbumsController@show')->where('id', '[0-9]+');
     Route::get('/albums', 'AlbumsController@index')->name('allAlbums');
-    Route::get('/albums/{album}/images', 'AlbumsController@getImages')->name('albumImages')->where('id', '[0-9]+');
     Route::get('/albums/{id}/edit', 'AlbumsController@edit')->name('editAlbum');
-    Route::delete('/albums/{id}', 'AlbumsController@delete')->name('deleteAlbum');
+    Route::patch('/albums/{id}', 'AlbumsController@store')->name('updateAlbum');
+    Route::get('/albums/create', 'AlbumsController@creation')->name('createAlbum');
     Route::post('/albums', 'AlbumsController@saveNewAlbum')->name('saveNewAlbum');
+    Route::delete('/albums/{id}', 'AlbumsController@delete')->name('deleteAlbum');
+
+    //immagini per quell album
+    Route::get('/albums/{album}/images', 'AlbumsController@getImages')->name('albumImages')->where('id', '[0-9]+');
+
+    //la rotta /albums/{id} è sempre la stessa, ma in base a se la chiamo dal frontend col DELETE o col GET o col PATCH
+    // mi va a chiamare un differente metodo del controller delete->delete, get->show, patch->store
 });
 
 Route::get('/home', 'HomeController@index')->name('homePage')->middleware('auth');
-// Route::get('/home', 'HomeController@index');

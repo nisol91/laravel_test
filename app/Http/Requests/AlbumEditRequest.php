@@ -30,9 +30,10 @@ class AlbumEditRequest extends FormRequest
      */
     public function rules()
     {
-        // devono avere lo stesso nome che hanno nella request del form (name="")
+        // i campi devono avere lo stesso nome che hanno nella request del form (name="")
         return [
-            'name' => 'required|unique:albums,album_name',
+            // 'name' => 'required|unique:albums,album_name',
+            'name' => 'required',
             'description' => 'required',
             // 'user_id' => 'required|numeric',
         ];

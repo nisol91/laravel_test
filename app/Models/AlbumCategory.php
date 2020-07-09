@@ -17,6 +17,6 @@ class AlbumCategory extends Model
     public function albums()
     {
         //'album _category' è la tabella ponte
-        return $this->belongsToMany(Album::class, 'album_category', 'category_id', 'album_id');
+        return $this->belongsToMany(Album::class, 'album_category', 'category_id', 'album_id')->withTimestamps();
     }
 }

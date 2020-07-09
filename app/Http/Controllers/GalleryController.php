@@ -33,6 +33,6 @@ class GalleryController extends Controller
         // ho preferito richiamare il metodo completo della relazione
         // per potergli dare il paginate
         $albums = $category->albums()->paginate(10);
-        return view('galleries.albums', ['title' => 'album for category: ' . $category->category_name, 'albums' => $albums]);
+        return view('galleries.albums', ['title' => 'albums for category: ' . $category->category_name, 'albums' => $albums]);
     }
 }

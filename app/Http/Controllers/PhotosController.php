@@ -164,7 +164,7 @@ class PhotosController extends Controller
 
         $message = $result ? 'ooottimo, foto con id: ' . $photo->id . ' aggiornata' : 'foto non aggiornata :(';
         session()->flash('message', $message);
-        return redirect("/albums/{$photo->album_id}/images");
+        return redirect(route('albumImages', $photo->album_id));
     }
 
     /**
