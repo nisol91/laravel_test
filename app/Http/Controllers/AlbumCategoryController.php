@@ -17,7 +17,8 @@ class AlbumCategoryController extends Controller
         // return AlbumCategory::get();
 
         // eager loading: carico tutti gli album che hanno quella category
-        return AlbumCategory::with('albums')->get();
+        $categories = AlbumCategory::with('albums')->get();
+        return view('categories.categories', ['categories' => $categories]);
     }
 
     /**
