@@ -192,7 +192,13 @@ class AlbumsController extends Controller
         // dd($album);
         // dd(Auth::user()->id);
 
-        // questo mi protegge dal fatto che un utente non scriva un altro id nella query string
+
+        // PROTEZIONE ROTTE
+        // questo mi protegge dal fatto che un utente non scriva un altro id nella query string: una cosa è
+        // non mostrare cose se l'utente non è loggato(per quello c'è il middleware auth), mentre invece qui
+        // si parla proprio di proteggere certe rotte da un utente che puo anche essere loggato, ma
+        // bisogna impedirgli di vedere le cose degli altri utenti
+
         // $album->user viene dalla relazione definita nel model, se no potevo scrivere $album->user_id
         /* if ($album->user->id !== Auth::user()->id) {
             abort(401, 'non sei autorizzato');
@@ -399,6 +405,14 @@ class AlbumsController extends Controller
     public function getImages(Album $album)
     {
 
+        // questo è uno dei 3 metodi per proteggere le rotte dall'accesso di un utente che non sia quello
+        // loggato
+        if ($album->user->id !== Auth::user()->id) {
+            abort(401, 'non sei autorizzato');
+        }
+
+
+        // ricorda che il paginate funge da get(). se lo uso poi non devo applicare il get()
         // $images = Photo::where('album_id', $album->id)->latest()->get();
         $images = Photo::where('album_id', $album->id)->paginate(env('IMG_PER_PAGE'));
 
